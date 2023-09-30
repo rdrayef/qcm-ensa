@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.ensa.java.qcm.models.User;
 import org.ensa.java.qcm.ui.listeners.StartExamListner;
+import org.ensa.java.qcm.ui.listeners.ViewResultListener;
 
 public class QCMAppUI extends JFrame {
 
@@ -20,10 +21,11 @@ public class QCMAppUI extends JFrame {
 	private User authUser;
 
 	private StartExamListner examListner;
+	private ViewResultListener resultListner;
 
 	public QCMAppUI(User authUser) {
 		this.authUser = authUser;
-		System.out.println("<<<<<<<<<"+authUser.getId());
+		System.out.println("<<<<<<<<<" + authUser.getId());
 		setTitle("QCM Application");
 		setSize(400, 200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,13 +48,8 @@ public class QCMAppUI extends JFrame {
 		this.examListner = new StartExamListner(this);
 		startExamButton.addActionListener(examListner);
 
-		viewResultsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Handle the "View Results" button click
-				// You can open a window to display exam results here
-			}
-		});
+		this.resultListner=new ViewResultListener(this);
+		viewResultsButton.addActionListener(resultListner);
 
 		if (!"student".equals(authUser.getRole()))
 			startExamButton.setEnabled(false);

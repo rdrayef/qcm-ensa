@@ -1,11 +1,14 @@
 package org.ensa.java.qcm.models;
 
+import java.util.Date;
+
 public class QCM {
 	private int id;
 	private String titre;
 	private Professeur professeur;
 	private String cibleNiveau;
 	private String cibleFiliere;
+	private Date QCMDate;
 
 	public QCM(int id, String titre, Professeur professeur, String cibleNiveau, String cibleFiliere) {
 		this.id = id;
@@ -50,4 +53,13 @@ public class QCM {
 	public void setCibleFiliere(String cibleFiliere) {
 		this.cibleFiliere = cibleFiliere;
 	}
+
+	public Date getQCMDate() {
+		return QCMDate;
+	}
+
+	public void setQCMDate(Date qCMDate) {
+		QCMDate = qCMDate;
+	}
+
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ensa.java.qcm.models.Etudiant;
 import org.ensa.java.qcm.models.Professeur;
 
 public class ProfesseurDAO {
@@ -36,6 +37,23 @@ public class ProfesseurDAO {
 				String nom = resultSet.getString("nom");
 				String specialite = resultSet.getString("specialite");
 				return new Professeur(id, nom, specialite);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Professeur getProfesseurByUserId(int userId) {
+		String selectQuery = "SELECT * FROM Professeurs WHERE user_id = ?";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+			preparedStatement.setInt(1, userId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String nom = resultSet.getString("nom");
+				String filiere = resultSet.getString("specialite");
+				return new Professeur(id, nom, filiere);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

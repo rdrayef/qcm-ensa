@@ -15,11 +15,13 @@ public class ResultatExamenDAO {
 	private Connection connection;
 	private QCMDAO qcmDAO;
 	private EtudiantDAO etudiantDAO;
+	private ProfesseurDAO professeurDAO;
 
 	public ResultatExamenDAO(Connection connection) {
 		this.connection = connection;
 		this.qcmDAO = new QCMDAO(connection);
 		this.etudiantDAO = new EtudiantDAO(connection);
+		this.professeurDAO = new ProfesseurDAO(connection);
 
 	}
 
@@ -81,6 +83,29 @@ public class ResultatExamenDAO {
 				int score = resultSet.getInt("score");
 
 				ResultatExamen resultatExamen = new ResultatExamen(id, etudiantDAO.getEtudiantById(etudiantId),
+						qcmDAO.getQCMById(qcmId), score);
+				resultats.add(resultatExamen);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return resultats;
+	}
+
+	public List<ResultatExamen> getResultatsByProfessor(int profId) {
+		List<ResultatExamen> resultats = new ArrayList<>();
+		String selectQuery = "SELECT * FROM ResultatsExamen r,qcms q WHERE r.qcm_id = q.id AND  q.professeur_id = ? ORDER BY q.titre";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+			preparedStatement.setInt(1, profId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				int qcmId = resultSet.getInt("qcm_id");
+				int score = resultSet.getInt("score");
+				int etdId = resultSet.getInt("etudiant_id");
+				ResultatExamen resultatExamen = new ResultatExamen(id, etudiantDAO.getEtudiantById(etdId),
 						qcmDAO.getQCMById(qcmId), score);
 				resultats.add(resultatExamen);
 			}

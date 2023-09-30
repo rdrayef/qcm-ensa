@@ -60,4 +60,15 @@ public class ResultatExamenService {
 		// Logique métier : Récupérer les résultats d'un QCM.
 		return resultatExamenDAO.getResultatsByQCM(qcmId);
 	}
+
+	public List<ResultatExamen> getResultatsByProf(int profId) throws ValidationException {
+		// Validation des données
+		if (profId <= 0) {
+			throw new ValidationException("ID de QCM invalide.");
+		}
+
+		// Logique métier : Récupérer les résultats d'un QCM.
+		return resultatExamenDAO.getResultatsByProfessor(profId);
+	}
+
 }

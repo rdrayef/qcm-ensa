@@ -56,13 +56,14 @@ public class QCMDAO {
 
 	// Méthode pour mettre à jour un QCM
 	public void updateQCM(QCM qcm) {
-		String updateQuery = "UPDATE QCMs SET titre = ?, professeur_id = ?, cibleNiveau = ?, cibleFiliere = ? WHERE id = ?";
+		String updateQuery = "UPDATE QCMs SET titre = ?, professeur_id = ?, cibleNiveau = ?, cibleFiliere = ?, qcmDate = ? WHERE id = ?";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
 			preparedStatement.setString(1, qcm.getTitre());
 			preparedStatement.setInt(2, qcm.getProfesseur().getId());
 			preparedStatement.setString(3, qcm.getCibleNiveau());
 			preparedStatement.setString(4, qcm.getCibleFiliere());
 			preparedStatement.setInt(5, qcm.getId());
+			preparedStatement.setString(6, qcm.getQCMDate().toString());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

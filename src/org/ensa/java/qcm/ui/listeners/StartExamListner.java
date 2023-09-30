@@ -2,6 +2,7 @@ package org.ensa.java.qcm.ui.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 import org.ensa.java.qcm.business.EtudiantService;
 import org.ensa.java.qcm.business.QCMService;
@@ -43,8 +44,10 @@ public class StartExamListner implements ActionListener {
 				}
 
 				if (qcmToPass != null) {
+					qcmToPass.setQCMDate(new Date());
+					qcmService.mettreAJourQCM(qcmToPass);
 					List<Question> questions = qcmService.getQCMQuestions(qcmToPass.getId());
-					ExamUI examUI = new ExamUI(questions,candidat,qcmToPass);
+					ExamUI examUI = new ExamUI(questions, candidat, qcmToPass);
 					examUI.setVisible(true);
 					parent.setVisible(false);
 				}
@@ -52,8 +55,6 @@ public class StartExamListner implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
-		} else {
 
 		}
 
